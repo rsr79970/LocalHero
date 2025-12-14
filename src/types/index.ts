@@ -1,19 +1,19 @@
+export type PointCategory =
+  | "volunteer"
+  | "shelter"
+  | "donation"
+  | "ecology"
+  | "other";
+
 export interface Point {
   id: number;
-  name: string;
+  name: string; // вместо title
   description: string;
   category: PointCategory;
-  position: [number, number];
+  position: [number, number]; // вместо lat/lng
   address?: string;
   contact?: string;
 }
-
-export type PointCategory = 
-  | 'volunteer' 
-  | 'shelter' 
-  | 'donation' 
-  | 'ecology' 
-  | 'other';
 
 export interface CategoryFilterProps {
   selectedCategories: PointCategory[];
@@ -23,4 +23,17 @@ export interface CategoryFilterProps {
 export interface MapComponentProps {
   selectedCategories: PointCategory[];
   searchQuery: string;
+
+  // Новые пропсы для точек и клика по карте
+  points: Point[];
+  onMapClick?: (lat: number, lng: number) => void;
+}
+
+export type NewsCategory = "volunteer" | "shelter" | "donation" | "ecology" | "other";
+
+export interface NewsItem {
+  id: number;
+  title: string;
+  description: string;
+  category: NewsCategory;
 }

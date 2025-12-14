@@ -14,7 +14,7 @@ export const usePointsStore = create<PointsState>((set) => ({
       name: "Animal Shelter 'Helping Paws'",
       description: "Volunteers needed for dog walking and animal care.",
       category: 'volunteer',
-      position: [55.7558, 37.6173],
+      position: [41.3775, 64.5853],
       contact: "+7 (999) 123-45-67",
       address: "Pushkin St, 10"
     }

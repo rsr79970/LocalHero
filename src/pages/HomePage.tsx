@@ -1,91 +1,84 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import MapComponent from "../components/MapComponent";
 import CategoryFilter from "../components/CategoryFilter";
-import type { PointCategory } from "../types";
+import Modal from "../components/Modal";
+import type { PointCategory, Point } from "../types";
+
+import "./HomePage.css"; // наши стили для Swiper
+import SwiperHero from "../components/Swipper";
 
 const HomePage = () => {
-  const [selectedCategories, setSelectedCategories] = useState<PointCategory[]>(
-    []
-  );
+  const [selectedCategories, setSelectedCategories] = useState<PointCategory[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [sliderValue, setSliderValue] = useState<number>(50); // новое состояние для слайдера
+  const [sliderValue, setSliderValue] = useState<number>(50);
+  const [points, setPoints] = useState<Point[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newPointCoords, setNewPointCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-  const clearFilters = () => {
-    setSelectedCategories([]);
-    setSearchQuery("");
-    setSliderValue(50); // сброс слайдера
+  const handleAddPoint = (data: { title: string; description: string; category: PointCategory; lat: number; lng: number }) => {
+    const newPoint: Point = {
+      id: points.length + 1,
+      name: data.title,
+      description: data.description,
+      category: data.category,
+      position: [data.lat, data.lng],
+    };
+    setPoints([...points, newPoint]);
+    setModalOpen(false);
+    setNewPointCoords(null);
   };
-
-  const hasActiveFilters =
-    selectedCategories.length > 0 ||
-    searchQuery.length > 0 ||
-    sliderValue !== 50;
 
   return (
     <div className="home-page">
-      {/* Control Panel */}{" "}
+      {/* Панель фильтров и кнопка */}
       <div className="control-panel">
-        {" "}
-        <div className="search-section">
-          {" "}
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Search by name or description..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />{" "}
-          </div>
-          {hasActiveFilters && (
-            <button onClick={clearFilters} className="clear-filters-btn">
-              ✕ Clear filters
-            </button>
-          )}
-        </div>
         <CategoryFilter
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          sliderValue={sliderValue}
+          setSliderValue={setSliderValue}
         />
-        {/* Новый слайдер */}
-        <div className="slider-section" style={{ marginTop: "10px" }}>
-          <label>
-            Filter by value: {sliderValue}
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={sliderValue}
-              onChange={(e) => setSliderValue(Number(e.target.value))}
-              style={{ width: "100%" }}
-            />
-          </label>
-        </div>
         <div className="action-buttons">
-          <Link to="/add-point" className="add-point-btn">
+          <button
+            onClick={() => {
+              setModalOpen(true);
+              setNewPointCoords(null);
+            }}
+            className="add-point-btn"
+          >
             ➕ Add Point
-          </Link>
+          </button>
         </div>
       </div>
-      {/* Filter Info */}
-      {hasActiveFilters && (
-        <div className="filter-info">
-          <p>
-            Active filters:
-            {selectedCategories.length > 0 &&
-              ` Categories: ${selectedCategories.length}`}
-            {searchQuery && ` Search: "${searchQuery}"`}
-            {sliderValue !== 50 && ` Slider: ${sliderValue}`}
-          </p>
-        </div>
-      )}
-      {/* Map Container */}
+
+      {/* Красивый Swiper сверху */}
+        <SwiperHero />
+
+      {/* Карта */}
       <div className="map-container">
         <MapComponent
           selectedCategories={selectedCategories}
           searchQuery={searchQuery}
+          points={points}
+          onMapClick={(lat, lng) => {
+            setNewPointCoords({ lat, lng });
+            setModalOpen(true);
+          }}
+          onDeletePoint={(id) => setPoints(points.filter((p) => p.id !== id))}
         />
       </div>
+
+      {/* Модалка */}
+      {modalOpen && (
+        <Modal
+          defaultLat={newPointCoords?.lat}
+          defaultLng={newPointCoords?.lng}
+          onClose={() => setModalOpen(false)}
+          onSave={handleAddPoint}
+        />
+      )}
     </div>
   );
 };
