@@ -4,24 +4,38 @@ import CategoryFilter from "../components/CategoryFilter";
 import Modal from "../components/Modal";
 import type { PointCategory, Point } from "../types";
 
-import "./HomePage.css"; // наши стили для Swiper
+import "./HomePage.css";
 import SwiperHero from "../components/Swipper";
 
 const HomePage = () => {
-  const [selectedCategories, setSelectedCategories] = useState<PointCategory[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<PointCategory[]>(
+    []
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sliderValue, setSliderValue] = useState<number>(50);
   const [points, setPoints] = useState<Point[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [newPointCoords, setNewPointCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [newPointCoords, setNewPointCoords] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
-  const handleAddPoint = (data: { title: string; description: string; category: PointCategory; lat: number; lng: number }) => {
+  // Обновляем handleAddPoint с urgency
+  const handleAddPoint = (data: {
+    title: string;
+    description: string;
+    category: PointCategory;
+    lat: number;
+    lng: number;
+    urgency: "urgent" | "medium" | "low";
+  }) => {
     const newPoint: Point = {
       id: points.length + 1,
       name: data.title,
       description: data.description,
       category: data.category,
       position: [data.lat, data.lng],
+      urgency: data.urgency,
     };
     setPoints([...points, newPoint]);
     setModalOpen(false);
@@ -30,7 +44,6 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      {/* Панель фильтров и кнопка */}
       <div className="control-panel">
         <CategoryFilter
           selectedCategories={selectedCategories}
@@ -53,10 +66,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Красивый Swiper сверху */}
-        <SwiperHero />
+      <SwiperHero />
 
-      {/* Карта */}
       <div className="map-container">
         <MapComponent
           selectedCategories={selectedCategories}
@@ -70,7 +81,6 @@ const HomePage = () => {
         />
       </div>
 
-      {/* Модалка */}
       {modalOpen && (
         <Modal
           defaultLat={newPointCoords?.lat}

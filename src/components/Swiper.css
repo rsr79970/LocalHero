@@ -71,10 +71,10 @@ body,
 }
 .swiper-button-prev,
 .swiper-button-next {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
+  /* background: linear-gradient(90deg, #00c6ff, #0072ff, #00ff7f); */
   /* border-radius: 50%; */
-  /* background: linear-gradient(135deg, #ff6a00, #ff00ff); */
   color: #fff !important;
   display: flex;
   align-items: center;
@@ -102,6 +102,6 @@ body,
 }
 
 .swiper-pagination-bullet-active {
-  background: linear-gradient(90deg, #ff6a00, #ff00ff);
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #00ff7f);
   transform: scale(1.3);
 }

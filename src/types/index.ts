@@ -5,14 +5,15 @@ export type PointCategory =
   | "ecology"
   | "other";
 
+export type Urgency = "urgent" | "medium" | "low";
+
 export interface Point {
   id: number;
-  name: string; // вместо title
+  name: string;
   description: string;
   category: PointCategory;
-  position: [number, number]; // вместо lat/lng
-  address?: string;
-  contact?: string;
+  position: [number, number];
+  urgency: Urgency;
 }
 
 export interface CategoryFilterProps {
@@ -29,7 +30,12 @@ export interface MapComponentProps {
   onMapClick?: (lat: number, lng: number) => void;
 }
 
-export type NewsCategory = "volunteer" | "shelter" | "donation" | "ecology" | "other";
+export type NewsCategory =
+  | "volunteer"
+  | "shelter"
+  | "donation"
+  | "ecology"
+  | "other";
 
 export interface NewsItem {
   id: number;

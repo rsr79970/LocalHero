@@ -1,9 +1,9 @@
-// components/PointForm.tsx
-import { useState } from 'react';
-import type { PointCategory, Point } from '../types';
+import { useState } from "react";
+import type { PointCategory, Point, Urgency } from "../types";
+import "./PointForm.css";
 
 interface PointFormProps {
-  onSubmit: (point: Omit<Point, 'id'>) => void;
+  onSubmit: (point: Omit<Point, "id">) => void;
 }
 
 interface FormData {
@@ -13,40 +13,45 @@ interface FormData {
   address: string;
   contact: string;
   position: [number, number];
+  urgency: Urgency;
 }
 
 const PointForm: React.FC<PointFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
-    description: '',
-    category: 'volunteer',
-    address: '',
-    contact: '',
-    position: [55.7558, 37.6173] // Default Moscow
+    name: "",
+    description: "",
+    category: "volunteer",
+    address: "",
+    contact: "",
+    position: [55.7558, 37.6173],
+    urgency: "medium",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.description.trim()) {
-      alert('Please fill in all required fields');
+      alert("Please fill in all required fields");
       return;
     }
     onSubmit(formData);
     setFormData({
-      name: '',
-      description: '',
-      category: 'volunteer',
-      address: '',
-      contact: '',
-      position: [55.7558, 37.6173]
+      name: "",
+      description: "",
+      category: "volunteer",
+      address: "",
+      contact: "",
+      position: [55.7558, 37.6173],
+      urgency: "medium",
     });
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -87,6 +92,15 @@ const PointForm: React.FC<PointFormProps> = ({ onSubmit }) => {
           <option value="donation">Blood Donation</option>
           <option value="ecology">Ecology</option>
           <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label>Urgency</label>
+        <select name="urgency" value={formData.urgency} onChange={handleChange}>
+          <option value="urgent">🔴 Urgent</option>
+          <option value="medium">🟡 Medium</option>
+          <option value="low">🟢 Low</option>
         </select>
       </div>
 

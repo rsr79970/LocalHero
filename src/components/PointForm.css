@@ -1,0 +1,66 @@
+.point-form {
+  max-width: 500px;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.point-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.point-form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.point-form input,
+.point-form textarea,
+.point-form select {
+  padding: 10px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.point-form input:focus,
+.point-form textarea:focus,
+.point-form select:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 6px rgba(76, 175, 80, 0.4);
+}
+
+.point-form textarea {
+  resize: none;
+}
+
+.point-form select {
+  cursor: pointer;
+  background-color: #f9fafb;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #43a047;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
