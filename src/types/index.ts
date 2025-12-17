@@ -10,6 +10,7 @@ export type Urgency = "urgent" | "medium" | "low";
 export interface Point {
   id: number;
   name: string;
+  contact?: string;
   description: string;
   category: PointCategory;
   position: [number, number];
